@@ -1,19 +1,16 @@
 from pathlib import Path
-from dotenv import load_dotenv
 import pandas as pd
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
-
-load_dotenv(Path(__file__).parent.parent / ".env")
 
 # Paths
 ROOT = Path(__file__).parent.parent
 RECIPES_DIR = ROOT / "data" / "recipes"
 FAISS_INDEX = ROOT / "data" / "faiss_index"
-CSV_PATH = ROOT / "data" / "recipes" / "recipes.csv"
+CSV_PATH = ROOT / "data" / "recipes" / "recipes_db.csv"
 
 def load_csv_recipes():
     df = pd.read_csv(CSV_PATH, encoding='utf-8', encoding_errors='replace')
