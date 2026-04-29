@@ -2,14 +2,76 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage
 from src.retriever import load_retriever
 import warnings
 import logging
+import streamlit as st
 warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
 logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 
 load_dotenv(Path(__file__).parent.parent / ".env")
+
+llm_filter = ChatGroq(
+    model="meta-llama/llama-4-scout-17b-16e-instruct",
+    max_tokens=8000,
+    temperature=0.7
+)
+
+def call_filter_ai(prompt: str) -> str:
+    response = llm_filter.invoke([HumanMessage(content=prompt)])
+    return str(response.content)
+
+def format_angebote(angebote: dict, preise: bool) -> str:
+    lines = []
+    if preise:
+        for markt, items in angebote.items():
+            lines.append(f"\n{markt}:")
+            for item in items:
+                lines.append(f"  - {item['name']}: {item['price_eur']}€")
+        return "\n".join(lines)
+    else:
+        for markt, items in angebote.items():
+            lines.append(f"\n{markt}:")
+            for item in items:
+                lines.append(f"  - {item['name']}")
+        return "\n".join(lines)
+
+def build_filter_prompt(angebote: dict) -> str:
+    return f"""
+    Du bekommst eine Liste von Supermarktangeboten.
+    Extrahiere NUR Produkte die zum Kochen geeignet sind.
+
+    **Ignoriere:**
+    - Alkohol (Bier, Wein, Spirituosen)
+    - Süßigkeiten & Snacks (Chips, Schokolade, Kekse, Eis)
+    - Non-Food Artikel (Holzkohle, Pfannen, etc.)
+    - Fertiggerichte & Fast Food
+    - Softdrinks & Energy Drinks
+
+    **Behalte:**
+    - Fleisch, Fisch, Meeresfrüchte
+    - Gemüse & Obst
+    - Milchprodukte & Käse
+    - Nudeln, Reis, Getreide
+    - Saucen, Gewürze, Öle
+    - Brot & Backwaren (zum Frühstück)
+    - Säfte & Wasser
+
+    **Angebote:**
+    {format_angebote(angebote, True)}
+
+    **Ausgabe als JSON:**
+    {{
+    "Lidl": [
+        {{"name": "Produktname", "price_eur": 1.99}}
+    ],
+    "EDEKA": [...]
+    }}
+
+    Keine Erklärungen, nur JSON.
+    """
 
 def build_chain():
     retriever = load_retriever()
@@ -46,7 +108,20 @@ def build_chain():
     def chain(question: str) -> str:
         docs = retriever.invoke(question)
         context = "\n\n".join([doc.page_content for doc in docs])
-        messages = prompt.format_messages(context=context, question=question)
+        
+        # Angebote als extra Kontext hinzufügen
+        offers_context = ""
+        if "offers" in st.session_state:
+            offers_context = f"\n\nCurrent supermarket deals:\n"
+            for market, items in st.session_state.offers.items():
+                offers_context += f"\n{market}:\n"
+                for item in items:
+                    offers_context += f"- {item['name']} ({item['price_eur']}€)\n"
+        
+        messages = prompt.format_messages(
+            context=context + offers_context,
+            question=question
+        )
         response = llm.invoke(messages)
         return str(response.content)
 

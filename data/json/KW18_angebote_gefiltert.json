@@ -1,0 +1,690 @@
+{
+  "Lidl": [
+    {
+      "name": "Deutsche Lauchzwiebeln",
+      "price_eur": 0.66
+    },
+    {
+      "name": "Cocktailstrauchtomaten",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Wassermelone, kernarm",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Snack Gurken",
+      "price_eur": 1.11
+    },
+    {
+      "name": "Grafschafter American Style Weizen Sandwich",
+      "price_eur": 0.95
+    },
+    {
+      "name": "Bioland Dinkel Hafer Müsli",
+      "price_eur": 2.79
+    },
+    {
+      "name": "Deutsche Rote Äpfel",
+      "price_eur": 2.22
+    },
+    {
+      "name": "Frischer Zuckermais",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Zucchini, lose",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Rucola",
+      "price_eur": 0.75
+    },
+    {
+      "name": "Metzgerfrisch Frische Hähnchen-Schenkel",
+      "price_eur": 3.99
+    },
+    {
+      "name": "Metzgerfrisch Schweine-Gyros",
+      "price_eur": 4.79
+    },
+    {
+      "name": "Metzgerfrisch Frische Schweine-Nackenkoteletts",
+      "price_eur": 5.55
+    },
+    {
+      "name": "METZGERFRISCH Frische Hamburger",
+      "price_eur": 5.79
+    },
+    {
+      "name": "Grillmeister Frische Bratwurst Merguez",
+      "price_eur": 4.44
+    },
+    {
+      "name": "Metzgerfrisch Frisches Hackfleisch, gemischt",
+      "price_eur": 6.99
+    },
+    {
+      "name": "Grillmeister Schweine-Bauchscheiben",
+      "price_eur": 4.19
+    },
+    {
+      "name": "Fischerstolz Norwegische Lachsseite",
+      "price_eur": 13.49
+    },
+    {
+      "name": "Babybel Mini Original",
+      "price_eur": 2.5
+    },
+    {
+      "name": "Kerrygold Original Irische Butter",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Petrella Frischkäse",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Kerrygold Irische Käsescheiben",
+      "price_eur": 1.59
+    },
+    {
+      "name": "Rama Culinesse XXL",
+      "price_eur": 1.79
+    },
+    {
+      "name": "Dr. Oetker High Protein Milchreis/Pudding Schoko",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Dr. Oetker High Protein Milchreis/Pudding Klassisch",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Golden Sun Basmati Reis",
+      "price_eur": 2.19
+    },
+    {
+      "name": "Bioland KörnerKönner",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Avocado, lose",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Heidelbeeren",
+      "price_eur": 3.59
+    },
+    {
+      "name": "Paprika Mix",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Nautica Norwegischer Räucherlachs XXL",
+      "price_eur": 4.19
+    },
+    {
+      "name": "Ocean Sea Lachsfilet-Portionen XXL",
+      "price_eur": 9.99
+    },
+    {
+      "name": "Milbona Original Feta XXL",
+      "price_eur": 2.39
+    },
+    {
+      "name": "PRIMADONNA Natives Olivenöl Extra XXL",
+      "price_eur": 9.99
+    },
+    {
+      "name": "Vita D'Or Reines Rapsöl",
+      "price_eur": null
+    },
+    {
+      "name": "Müller Kalinka Kefir",
+      "price_eur": 0.88
+    },
+    {
+      "name": "Müller Ayran",
+      "price_eur": 0.88
+    },
+    {
+      "name": "Combino Spaghetti XXL",
+      "price_eur": 0.69
+    },
+    {
+      "name": "Ähre Weizenmehl Type 405",
+      "price_eur": 1.29
+    }
+  ],
+  "EDEKA": [
+    {
+      "name": "Rougette Grillkäse Kräuter",
+      "price_eur": 2.22
+    },
+    {
+      "name": "Landliebe Butter",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Maggi Würzpaste Teriyaki Style",
+      "price_eur": 0.39
+    },
+    {
+      "name": "Maggi Würzpaste Curry Indian Style",
+      "price_eur": 0.39
+    },
+    {
+      "name": "Thomy Les Sauces Hollandaise",
+      "price_eur": 0.79
+    },
+    {
+      "name": "Thomy Les Sauces Béarnaise",
+      "price_eur": 0.79
+    },
+    {
+      "name": "Papa Joe's Original Mayonnaise",
+      "price_eur": 1.49
+    },
+    {
+      "name": "EDEKA Herzstücke Pesto",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Vitrex Naturelle",
+      "price_eur": 2.99
+    },
+    {
+      "name": "Hofglück Halssteaks",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Hofglück frische grobe Bratwurst",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Müller Joghurt mit der Ecke Schoko Flakes + Joghurt Bananen-Geschmack",
+      "price_eur": 0.33
+    },
+    {
+      "name": "Driscoll's Himbeeren",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Unsere Heimat Kraussalat",
+      "price_eur": 1.11
+    },
+    {
+      "name": "Unsere Heimat Eichblatt rot",
+      "price_eur": 1.11
+    },
+    {
+      "name": "Unsere Heimat Spargel weiß/violett/grün Klasse II",
+      "price_eur": null
+    },
+    {
+      "name": "Unsere Heimat Zuckermais",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Lauchzwiebeln",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Unsere Heimat – echt & gut Cocktail Rispen Tomaten",
+      "price_eur": 2.99
+    },
+    {
+      "name": "Unsere Heimat – echt & gut Mini Pflaumentomaten",
+      "price_eur": 2.99
+    },
+    {
+      "name": "Unsere Heimat echt & gut Spitzpaprika rot",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Gut & Günstig Kartoffeln",
+      "price_eur": 1.79
+    },
+    {
+      "name": "Zespri Kiwis Gold Jumbo",
+      "price_eur": 1
+    },
+    {
+      "name": "EDEKA Bio Heidelbeeren",
+      "price_eur": 3.99
+    },
+    {
+      "name": "EDEKA Herzstücke Avocados genussreif",
+      "price_eur": 2.22
+    },
+    {
+      "name": "EDEKA Herzstücke Ananas extra sweet",
+      "price_eur": 2.99
+    },
+    {
+      "name": "EDEKA Herzstücke Trauben",
+      "price_eur": 3.99
+    },
+    {
+      "name": "Gut & Günstig Champignons weiß",
+      "price_eur": 1.79
+    },
+    {
+      "name": "Bimi Stangenbrokkoli",
+      "price_eur": 1.99
+    },
+    {
+      "name": "EDEKA Bio Zucchini",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Hengstenberg Altmeister Essig",
+      "price_eur": 0.99
+    },
+    {
+      "name": "EDEKA Herzstücke Sonnenblumenöl",
+      "price_eur": 1.99
+    },
+    {
+      "name": "EDEKA Herzstücke Reines Rapsöl",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Zum Dorfkrug Sylter Salatfrische Das Original",
+      "price_eur": 1.69
+    },
+    {
+      "name": "Zum Dorfkrug Honig-Senf Salatsauce",
+      "price_eur": 1.69
+    },
+    {
+      "name": "Feuerwehr-Steaks",
+      "price_eur": 1.19
+    },
+    {
+      "name": "Putenschnitzel",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Hofglück Schweine-Schnitzel",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Hofglück Schweine-Braten",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Hofglück Schweine-Gulasch",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Tafelspitz",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Hähnchen-Unterschenkel",
+      "price_eur": 8.99
+    },
+    {
+      "name": "Saftige Grillkoteletts",
+      "price_eur": 7.99
+    },
+    {
+      "name": "Zarte Metzger-Kalbskoteletts",
+      "price_eur": 3.29
+    },
+    {
+      "name": "BBQ Onions",
+      "price_eur": 2.99
+    },
+    {
+      "name": "Gyrosspieße",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Fleischspieße",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Wiesbauer Weinviertler Winzerwurst",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Hofglück Garschinken",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Würziger Fleischkäse fein",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Würziger Fleischkäse grob",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Zarter Wacholderschinken",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Würzige Schinkenkrakauer",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Bierstangerl",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Schwarzwälder Schinken",
+      "price_eur": 2.29
+    },
+    {
+      "name": "Alma Vorarlberger Bergkäse",
+      "price_eur": 1.79
+    },
+    {
+      "name": "Aggenstein Emmentaler",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Unser Allgäuer",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Löwentaler",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Allgäuer Blumenkäse",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Bio Rebell",
+      "price_eur": 2.99
+    },
+    {
+      "name": "Seelachsrückenfilets",
+      "price_eur": 2.69
+    },
+    {
+      "name": "Garnelen mit Spargel",
+      "price_eur": 3.79
+    },
+    {
+      "name": "Fruchtiger Shrimps-Cocktail Miami",
+      "price_eur": 1.79
+    },
+    {
+      "name": "Lachssteaks",
+      "price_eur": 2.29
+    },
+    {
+      "name": "Regenbogenforellen",
+      "price_eur": 1.39
+    },
+    {
+      "name": "Hofglück Frühstücksfleisch",
+      "price_eur": 3.99
+    },
+    {
+      "name": "Hofglück Bratwurst",
+      "price_eur": 3.99
+    },
+    {
+      "name": "Hofglück Gutsleberwurst",
+      "price_eur": 3.99
+    },
+    {
+      "name": "Hofglück Fleischkäse",
+      "price_eur": 3.99
+    },
+    {
+      "name": "Ferdi Fuchs Mini Würstchen",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Ferdi Fuchs Geflügel Mini Würstchen",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Wiesbauer Käsewurst",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Wiesbauer Winzerwurst",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Hofglück Feine Streifen",
+      "price_eur": 2.29
+    },
+    {
+      "name": "Wasner Münchner Weißwurst",
+      "price_eur": 3.33
+    },
+    {
+      "name": "Zott Zottarella Classic Minis",
+      "price_eur": 1.69
+    },
+    {
+      "name": "Gazi Halloumi Natur",
+      "price_eur": 2.69
+    },
+    {
+      "name": "Bergader Bavaria blu",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Bergader Almzeit",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Brunch Brotaufstrich Kräuter",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Brunch Brotaufstrich Natur",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Utt's Flammkuchenböden",
+      "price_eur": 3.99
+    },
+    {
+      "name": "Settele Schwäbische Maultaschen",
+      "price_eur": 1.79
+    },
+    {
+      "name": "True Fruits Smoothie",
+      "price_eur": 2.29
+    },
+    {
+      "name": "Garden Gourmet Gemüsebällchen",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Garden Gourmet Sensational Burger",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Rügenwalder Mühle Vegane Mühlen Rostbratwürstchen",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Rügenwalder Mühle Vegane Mühlen BBQ-Filets Paprika Typ Hähnchen",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Bürger Schwäbische Schupfnudeln",
+      "price_eur": 2.99
+    },
+    {
+      "name": "Bürger Schwäbische Eierspätzle",
+      "price_eur": 2.99
+    },
+    {
+      "name": "Minus L Fettarme H-Milch",
+      "price_eur": 1.69
+    },
+    {
+      "name": "Minus L H-Vollmilch",
+      "price_eur": 1.69
+    },
+    {
+      "name": "Landliebe haltbare Landmilch 1,5% Fett",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Landliebe haltbare Landmilch 3,5% Fett",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Alpro Haferdrink",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Alpro Soyadrink",
+      "price_eur": 1.49
+    },
+    {
+      "name": "Emmi Caffè Latte Macchiato",
+      "price_eur": 1.39
+    },
+    {
+      "name": "Emmi Matcha Latte",
+      "price_eur": 1.39
+    },
+    {
+      "name": "Mövenpick Feinjoghurt Himbeere",
+      "price_eur": 0.69
+    },
+    {
+      "name": "Mövenpick Feinjoghurt Erdbeere",
+      "price_eur": 0.69
+    },
+    {
+      "name": "Mövenpick Feinjoghurt Pfirsich-Maracuja",
+      "price_eur": 0.69
+    },
+    {
+      "name": "Mövenpick Feinjoghurt Orange",
+      "price_eur": 0.69
+    },
+    {
+      "name": "Unsere Heimat – echt & gut Schlagsahne",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Rama Cremfine zum Kochen 7% Fett",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Rama Cremfine zum Kochen 15% Fett",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Mevgal Griechischer Sahne Joghurt",
+      "price_eur": 1.11
+    },
+    {
+      "name": "Mevgal Schafmilch Joghurt",
+      "price_eur": 1.11
+    },
+    {
+      "name": "EDEKA Herzstücke Mango gewürfelt",
+      "price_eur": 2.49
+    },
+    {
+      "name": "Frosta Schlemmerfilet Knusprig Kross",
+      "price_eur": 2.79
+    },
+    {
+      "name": "Frosta Backofen Fisch Knusprig Kross",
+      "price_eur": 2.79
+    },
+    {
+      "name": "Frosta 15 Fischstäbchen",
+      "price_eur": 2.79
+    },
+    {
+      "name": "EDEKA Herzstücke Offizielle Stadion Bratwurst rot",
+      "price_eur": 3.99
+    },
+    {
+      "name": "EDEKA Herzstücke Offizielle Stadion Bratwurst weiß",
+      "price_eur": 3.99
+    },
+    {
+      "name": "EDEKA Südwest Feuerwurst",
+      "price_eur": 5.99
+    },
+    {
+      "name": "Die Thüringer Rostbratwurst",
+      "price_eur": 5.99
+    },
+    {
+      "name": "EDEKA Herzstücke Fladenbrot",
+      "price_eur": 1.29
+    },
+    {
+      "name": "EDEKA Herzstücke Mini Fladenbrot",
+      "price_eur": 1.29
+    },
+    {
+      "name": "EDEKA Herzstücke Laugenbaguette",
+      "price_eur": 0.99
+    },
+    {
+      "name": "EDEKA Herzstücke Mehrkornbaguette",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Block House American Burger",
+      "price_eur": 7.99
+    },
+    {
+      "name": "Apostels Zaziki",
+      "price_eur": 0.88
+    },
+    {
+      "name": "EDEKA Herzstücke Kräuterbutter",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Hela Gewürz Ketchup Curry",
+      "price_eur": 1.99
+    },
+    {
+      "name": "Knorr Knoblauch Sauce",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Knorr Cocktail Sauce",
+      "price_eur": 0.99
+    },
+    {
+      "name": "Gut & Günstig Sojasauce hell",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Gut & Günstig Sojasauce dunkel",
+      "price_eur": 1.29
+    },
+    {
+      "name": "Thomy Mittelscharfer Delikatess Senf",
+      "price_eur": 0.99
+    },
+    {
+      "name": "EDEKA Herzstücke Kirsch Paprika",
+      "price_eur": 1.99
+    },
+    {
+      "name": "EDEKA Herzstücke Honey Peppers",
+      "price_eur": 1.99
+    },
+    {
+      "name": "EDEKA Herzstücke Oliven Mix",
+      "price_eur": 1.99
+    }
+  ]
+}

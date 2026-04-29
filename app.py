@@ -2,6 +2,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
 from src.chat import build_chain
+from src.offers import load_or_fetch_offers
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -35,6 +36,12 @@ if "chain" not in st.session_state:
         st.write("Initializing AI model...")
         st.session_state.chain = build_chain()
         status.update(label="✅ ConfabChef is ready!", state="complete")
+
+if st.button("🛒 Use this week's supermarket deals"):
+    with st.spinner("Loading deals..."):
+        offers, message = load_or_fetch_offers()
+        st.session_state.offers = offers
+        st.success(message)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
