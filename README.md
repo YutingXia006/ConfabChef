@@ -96,18 +96,18 @@ Responds in the same language as the user thanks to the multilingual embedding m
 ## Adding Your Own Recipes
 
 Add `.txt` files to `data/recipes/` in this format:\
-Name: Your Recipe Name
-Cuisine: Chinese
-Servings: 2
-Calories: 300
+Name: Your Recipe Name\
+Cuisine: Chinese\
+Servings: 2\
+Calories: 300\
 Ingredients:
 
-ingredient 1
+ingredient 1\
 ingredient 2
 
 Instructions:
 
-Step one
+Step one\
 Step two
 
 Tags: tag1, tag2
