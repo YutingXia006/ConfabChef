@@ -1,0 +1,23 @@
+Name: Spaghetti Carbonara
+Cuisine: Italian
+Servings: 2
+Calories: 620
+
+Ingredients:
+- 200g spaghetti
+- 100g pancetta or bacon
+- 2 eggs
+- 50g parmesan, grated
+- 2 cloves garlic
+- black pepper
+- salt
+
+Instructions:
+1. Cook spaghetti in salted water until al dente.
+2. Fry pancetta with garlic until crispy.
+3. Mix eggs and parmesan in a bowl.
+4. Remove pan from heat, add drained pasta.
+5. Add egg mixture quickly while tossing.
+6. Season with black pepper and serve immediately.
+
+Tags: italian, pasta, quick, comfort food

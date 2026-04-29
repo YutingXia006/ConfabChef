@@ -27,6 +27,7 @@ scratch.py
 test_*.py
 
 # FAISS Index (optional, falls du es neu generieren willst)
+data/faiss_index/
 *.faiss
 *.pkl
 
@@ -36,3 +37,6 @@ test_*.py
 # OS
 .DS_Store
 Thumbs.db
+
+# first prompt for the bot
+personal_prefs.txt
