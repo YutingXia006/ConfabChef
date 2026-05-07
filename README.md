@@ -4,7 +4,9 @@
 
 ConfabChef is a RAG-based (Retrieval-Augmented Generation) recipe and meal planning chatbot built with LangChain, Groq, and Streamlit. It retrieves relevant recipes from a local knowledge base and generates personalised meal suggestions using a large language model. It can also fetch current supermarket deals from your local area and suggest recipes based on what's on sale this week.
 
-## Demo
+## 🚀 Live Demo
+
+[Try ConfabChef here](https://confabchef.streamlit.app/)
 
 ![ConfabChef Demo](docs/demo.png)
 
@@ -36,7 +38,7 @@ ConfabChef/
 │   ├── retriever.py    # Load FAISS index & retrieve relevant recipes
 │   ├── chat.py         # LLM chain with RAG prompt + AI filter for non-food items
 │   ├── offers.py       # Supermarket deal fetching & caching
-│   ├── scrapper.py     # kaufda.de scraper
+│   ├── scraper.py      # kaufda.de scraper
 ├── data/
 │   ├── json/           # Cached weekly supermarket deals
 │   └── recipes/        # Custom recipe knowledge base (.txt files)
@@ -56,9 +58,11 @@ ConfabChef/
 1. Clone the repo
 2. Set up environment variables (see `.env.example`)
 3. Run:
+
 ```bash
 docker compose up --build
 ```
+
 App läuft dann auf http://localhost:8501
 
 ### Option B — Local (venv)
