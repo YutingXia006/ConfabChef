@@ -25,6 +25,7 @@ ConfabChef is a RAG-based (Retrieval-Augmented Generation) recipe and meal plann
 | Embeddings | ibm-granite/granite-embedding-278m-multilingual |
 | UI | Streamlit |
 | Language | Python 3.12 |
+| Container | Docker |
 
 ## Project Structure
 
@@ -42,19 +43,34 @@ ConfabChef/
 │        └── recipes_db.csv  # Recipe database (Kaggle dataset)
 ├── app.py              # Streamlit UI
 ├── .env                # API keys (not committed)
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
 └── requirements.txt
 ```
 
 ## Getting Started
 
-### 1. Clone the repo
+### Option A — Docker (empfohlen)
+
+1. Clone the repo
+2. Set up environment variables (see `.env.example`)
+3. Run:
+```bash
+docker compose up --build
+```
+App läuft dann auf http://localhost:8501
+
+### Option B — Local (venv)
+
+#### 1. Clone the repo
 
 ```bash
 git clone https://github.com/YutingXia006/ConfabChef.git
 cd ConfabChef
 ```
 
-### 2. Create virtual environment
+#### 2. Create virtual environment
 
 ```bash
 python -m venv venv
@@ -62,7 +78,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Set up `.env`
+#### 3. Set up `.env`
 
 GROQ_API_KEY=your_key_here
 Optional — needed for supermarket deals feature
@@ -70,7 +86,7 @@ MARKETS=Lidl,EDEKA
 LAT=your_latitude
 LNG=your_longitude
 
-### 4. Run the app
+#### 4. Run the app
 
 ```bash
 streamlit run app.py
