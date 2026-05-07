@@ -31,6 +31,9 @@ data/faiss_index/
 *.faiss
 *.pkl
 
+# JSON files
+data/json/
+
 # VS Code
 .vscode/
 
