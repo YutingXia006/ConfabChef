@@ -21,7 +21,8 @@ except (TypeError, ValueError):
 def fetch_brochure_ids():
     html = requests.get(
         "https://www.kaufda.de/shelf",
-        params={"lat": LAT, "lng": LNG}
+        params={"lat": LAT, "lng": LNG},
+        timeout=10
     ).text
 
     # Händlername + ID zusammen extrahieren
@@ -45,7 +46,7 @@ def fetch_brochure_pages(brochure_id: str, lat: float, lng: float) -> dict:
         "lat": lat,
         "lng": lng
     }
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, timeout=10)
     response.raise_for_status()
     return response.json()
 
