@@ -1,6 +1,6 @@
 from pathlib import Path
 from datetime import datetime
-from src.scrapper import fetch_all_offers
+from src.scraper import fetch_all_offers
 from langchain_core.messages import HumanMessage
 from langchain_groq import ChatGroq
 import json
