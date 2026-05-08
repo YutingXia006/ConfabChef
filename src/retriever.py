@@ -6,7 +6,6 @@ import streamlit as st
 ROOT = Path(__file__).parent.parent
 FAISS_INDEX = ROOT / "data" / "faiss_index"
 
-@st.cache_resource
 def load_retriever():
     embeddings = HuggingFaceEmbeddings(
         model_name="ibm-granite/granite-embedding-278m-multilingual"

@@ -2,7 +2,7 @@
 
 > Your AI sous-chef — because even AI chefs occasionally confabulate.
 
-ConfabChef is a RAG-based (Retrieval-Augmented Generation) recipe and meal planning chatbot built with LangChain, Groq, and Streamlit. It retrieves relevant recipes from a local knowledge base and generates personalised meal suggestions using a large language model. It can also fetch current supermarket deals from your local area and suggest recipes based on what's on sale this week.
+ConfabChef is an agentic RAG-based recipe and meal planning chatbot built with LangGraph, LangChain, Groq, and Streamlit. A LangGraph agent intelligently routes your request, retrieves relevant recipes from a local knowledge base, and automatically fetches current supermarket deals — all from a single chat message.
 
 ## 🚀 Live Demo
 
@@ -12,16 +12,23 @@ ConfabChef is a RAG-based (Retrieval-Augmented Generation) recipe and meal plann
 
 ## How It Works
 
-1. **Ingest** — Recipe documents are loaded, split into chunks and embedded into a FAISS vector index
-2. **Retrieve** — User questions are matched against the vector index to find relevant recipes
-3. **Generate** — A Groq LLM generates a personalised response based on the retrieved recipes
-4. **Deals** *(optional)* — Fetches current supermarket offers via kaufda.de and uses them as additional context for meal planning
+The app uses a LangGraph agent that decides how to handle each request:
+
+![LangGraph Agent](docs/graph.png)
+
+1. **Route** — A fast LLM classifies the request into recipes, meal_plan, offers, or general
+2. **Extract** — If deals are needed, the agent extracts supermarket preferences from the message
+3. **Retrieve** — Relevant recipes are fetched from a FAISS vector index
+4. **Deals** — Current supermarket offers are fetched via kaufda.de and cached weekly
+5. **Generate** — A powerful LLM generates a personalised response combining all context
 
 ## Tech Stack
 
 | Component | Technology |
 | --- | --- |
-| LLM | Groq (LLaMA 3.3 70B) |
+| Agent | LangGraph |
+| LLM (Generate) | Groq (LLaMA 3.3 70B) |
+| LLM (Router) | Groq (LLaMA 3.1 8B) |
 | Orchestration | LangChain |
 | Vector Store | FAISS |
 | Embeddings | ibm-granite/granite-embedding-278m-multilingual |
@@ -34,9 +41,9 @@ ConfabChef is a RAG-based (Retrieval-Augmented Generation) recipe and meal plann
 ```text
 ConfabChef/
 ├── src/
+│   ├── agent.py        # LangGraph agent with routing logic
 │   ├── ingest.py       # Load recipes & build FAISS index
 │   ├── retriever.py    # Load FAISS index & retrieve relevant recipes
-│   ├── chat.py         # LLM chain with RAG prompt + AI filter for non-food items
 │   ├── offers.py       # Supermarket deal fetching & caching
 │   ├── scraper.py      # kaufda.de scraper
 ├── data/
@@ -53,7 +60,7 @@ ConfabChef/
 
 ## Getting Started
 
-### Option A — Docker (empfohlen)
+### Option A — Docker (recommended)
 
 1. Clone the repo
 2. Set up environment variables (see `.env.example`)
@@ -63,7 +70,7 @@ ConfabChef/
 docker compose up --build
 ```
 
-App läuft dann auf http://localhost:8501
+App runs at `http://localhost:8501`
 
 ### Option B — Local (venv)
 
@@ -84,10 +91,10 @@ pip install -r requirements.txt
 
 #### 3. Set up `.env`
 
-GROQ_API_KEY=your_key_here
-Optional — needed for supermarket deals feature
-MARKETS=Lidl,EDEKA
-LAT=your_latitude
+GROQ_API_KEY=your_key_here\
+Optional — needed for supermarket deals feature\
+MARKETS=Lidl,EDEKA\
+LAT=your_latitude\
 LNG=your_longitude
 
 #### 4. Run the app
@@ -104,13 +111,18 @@ python src/ingest.py
 
 ## Features
 
-**Recipe & Meal Planning**
+**🤖 Agentic Routing**
+A LangGraph agent classifies each request and decides which tools to use — no manual buttons needed. Just chat naturally.
+
+**🍳 Recipe & Meal Planning**
 Ask for recipes, weekly meal plans, or ingredient-based suggestions. Specify dietary restrictions, calorie goals, allergies, or cuisine preferences directly in the chat.
 
-**Supermarket Deals Integration**
-Click "🛒 Use this week's supermarket deals" to fetch current offers from your local supermarkets via kaufda.de. Deals are cached weekly as JSON so the scraper only runs once per week.
+**🛒 Automatic Supermarket Deals**
+Mention your preferred supermarket and CC will automatically fetch this week's deals and use them for recipe suggestions. Supported: Lidl, Rewe, EDEKA, Aldi, Kaufland, Penny, Netto. Deals are cached weekly as JSON so the scraper only runs once per week.
 
-**Multilingual**
+> *"I usually shop at Lidl, give me a weekly meal plan"*
+
+**🌍 Multilingual**
 Responds in the same language as the user thanks to the multilingual embedding model and Groq LLM.
 
 ## Adding Your Own Recipes

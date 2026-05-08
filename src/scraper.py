@@ -18,7 +18,8 @@ try:
 except (TypeError, ValueError):
     raise ValueError("LATITUDE and LONGITUDE must be set in your .env file")
 
-def fetch_brochure_ids():
+def fetch_brochure_ids(markets: list[str] | None = None):
+    active_markets = markets or RELEVANT_SUPERMARKTS
     html = requests.get(
         "https://www.kaufda.de/shelf",
         params={"lat": LAT, "lng": LNG},
@@ -34,7 +35,7 @@ def fetch_brochure_ids():
     brochure_ids = {} 
 
     for name, id in matches:
-        if name in RELEVANT_SUPERMARKTS and name not in brochure_ids:
+        if name in active_markets and name not in brochure_ids:
             brochure_ids[name] = id
     return brochure_ids
 
@@ -97,8 +98,9 @@ def parse_food_offers(data: dict) -> list[dict]:
             angebote.extend(parse_offer(offer_obj))
     return angebote
 
-def fetch_all_offers():
-    brochure_ids = fetch_brochure_ids()
+def fetch_all_offers(markets: list[str] | None = None):
+    active_markets = markets or RELEVANT_SUPERMARKTS
+    brochure_ids = fetch_brochure_ids(active_markets)
     all_offers = {}
     for name, brochure_id in brochure_ids.items():
         raw_data = fetch_brochure_pages(brochure_id, LAT, LNG)

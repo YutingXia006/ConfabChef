@@ -6,6 +6,7 @@ from langchain_groq import ChatGroq
 import json
 import re
 from dotenv import load_dotenv
+import os
 load_dotenv()
 
 llm_filter = ChatGroq(
@@ -27,15 +28,19 @@ def parse_json_response(response: str) -> dict:
     except json.JSONDecodeError as e:
         raise ValueError(f"Ungültiges JSON: {e}")
 
-def load_or_fetch_offers():
+def load_or_fetch_offers(markets: list[str] | None = None):
+    # Nutze Parameter oder fallback auf ENV
+    active_markets = markets or os.environ.get("MARKETS", "").split(",")
+
     kw = datetime.now().isocalendar().week
-    json_path = Path(f"data/json/KW{kw}_angebote_gefiltert.json")
+    markets_key = "_".join(sorted(active_markets))
+    json_path = Path(f"data/json/KW{kw}_{markets_key}_angebote_gefiltert.json")
     
     if json_path.exists():
         with open(json_path, encoding="utf-8") as f:
             return json.load(f), f"📂 Loaded cached deals from KW{kw}"
     else:
-        offers_raw = fetch_all_offers()
+        offers_raw = fetch_all_offers(active_markets)
         prompt = build_filter_prompt(offers_raw)
         response = call_filter_ai(prompt)
         offers = parse_json_response(response)
