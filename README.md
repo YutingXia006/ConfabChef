@@ -131,7 +131,9 @@ Responds in the same language as the user thanks to the multilingual embedding m
 ## Adding Your Own Recipes
 
 Add `.txt` files to `data/recipes/` in this format:
+
 ``` text
+
 Name: Your Recipe Name
 Cuisine: Chinese
 Servings: 2
