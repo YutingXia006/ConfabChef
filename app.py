@@ -5,6 +5,7 @@ import re
 from src.ingest import load_csv_recipes, load_txt_recipes, split_documents, build_faiss_index, FAISS_INDEX
 from src.agent import build_agent
 import warnings
+from src.callbacks import StreamlitProgressHandler
 import logging
 warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
@@ -35,7 +36,7 @@ if not FAISS_INDEX.exists():
         status.update(label="✅ Recipe database ready!", state="complete")
 
 if "agent" not in st.session_state:
-    with st.status("🍳 Preparing the kitchen...", expanded=True) as status:
+    with st.status("🍳 Preparing the kitchen...", expanded=False) as status:
         st.write("Loading recipe database...")
         st.write("Initializing AI model...")
         st.session_state.agent = build_agent()
@@ -72,14 +73,17 @@ if prompt := st.chat_input("Ask me for a recipe or meal plan..."):
         response = ""
         try:
             with st.status("🍳 Cooking...", expanded=True) as status:
-                st.write("🔍 Analyzing your request...")
-                result = st.session_state.agent.invoke({
-                    "messages": [HumanMessage(content=prompt)],
-                    "context": "",
-                    "offers_section": "",
-                    "route": "",
-                    "draft_plan": ""
-                })
+                handler = StreamlitProgressHandler(status)
+                result = st.session_state.agent.invoke(
+                    {
+                        "messages": [HumanMessage(content=prompt)],
+                        "context": "",
+                        "offers_section": "",
+                        "route": "",
+                        "draft_plan": ""
+                    },
+                    config={"callbacks": [handler]}
+                )
                 if st.session_state.get("offers"):
                     markets = ", ".join(st.session_state.offers.keys())
                     st.write(f"🛒 Used deals from: {markets}")

@@ -28,8 +28,9 @@ The app uses a LangGraph agent that decides how to handle each request:
 | Component | Technology |
 | --- | --- |
 | Agent | LangGraph |
-| LLM (Generate) | Groq (LLaMA 3.3 70B) |
-| LLM (Router) | Groq (LLaMA 3.1 8B) |
+| LLM (Routing) | Groq (LLaMA 3.1 8B) |
+| LLM (Planning) | Groq (LLaMA 3.1 8B) |
+| LLM (Dietitian & Generate) | Groq (LLaMA 3.3 70B) |
 | Orchestration | LangChain |
 | Vector Store | FAISS |
 | Embeddings | ibm-granite/granite-embedding-278m-multilingual |
@@ -43,6 +44,7 @@ The app uses a LangGraph agent that decides how to handle each request:
 ConfabChef/
 ├── src/
 │   ├── agent.py        # LangGraph agent with routing logic
+│   ├── callbacks.py    # Streamlit progress handler for live status updates
 │   ├── ingest.py       # Load recipes & build FAISS index
 │   ├── retriever.py    # Load FAISS index & retrieve relevant recipes
 │   ├── offers.py       # Supermarket deal fetching & caching
@@ -92,7 +94,10 @@ pip install -r requirements.txt
 
 #### 3. Set up `.env`
 
-GROQ_API_KEY=your_key_here\
+``` text
+GROQ_API_KEY=your_key_here
+```
+
 That's it! No location or market configuration needed. kaufda.de detects your location automatically via IP geolocation.
 
 #### 4. Run the app
@@ -125,22 +130,24 @@ Responds in the same language as the user thanks to the multilingual embedding m
 
 ## Adding Your Own Recipes
 
-Add `.txt` files to `data/recipes/` in this format:\
-Name: Your Recipe Name\
-Cuisine: Chinese\
-Servings: 2\
-Calories: 300\
+Add `.txt` files to `data/recipes/` in this format:
+``` text
+Name: Your Recipe Name
+Cuisine: Chinese
+Servings: 2
+Calories: 300
 Ingredients:
 
-ingredient 1\
+ingredient 1
 ingredient 2
 
 Instructions:
 
-Step one\
+Step one
 Step two
 
 Tags: tag1, tag2
+```
 
 Then delete `data/faiss_index` and restart the app or run `python src/ingest.py`.
 

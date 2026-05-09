@@ -5,14 +5,15 @@ from langchain_core.messages import HumanMessage
 from langchain_groq import ChatGroq
 import json
 import re
-
-llm_filter = ChatGroq(
-    model="meta-llama/llama-4-scout-17b-16e-instruct",
-    max_tokens=8000,
-    temperature=0.7
-)
+from dotenv import load_dotenv
+load_dotenv()
 
 def call_filter_ai(prompt: str) -> str:
+    llm_filter = ChatGroq(
+        model="meta-llama/llama-4-scout-17b-16e-instruct",
+        max_tokens=8000,
+        temperature=0.7
+    )
     response = llm_filter.invoke([HumanMessage(content=prompt)])
     return str(response.content)
 

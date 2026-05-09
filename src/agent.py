@@ -7,6 +7,7 @@ from src.retriever import load_retriever
 from src.offers import load_or_fetch_offers
 import operator
 import streamlit as st
+import random
 
 # ── State ────────────────────────────────────────────────────────────────────
 
@@ -27,13 +28,23 @@ def build_agent():
     # ── LLM & Retriever ──────────────────────────────────────────────────────────
     llm_generate = ChatGroq(
         model="llama-3.3-70b-versatile",
-        max_tokens=8000,
+        max_tokens=2000,
         temperature=0.7
     )
     llm_router = ChatGroq(
         model="llama-3.1-8b-instant", 
         max_tokens=10,  # braucht nur ein Wort zurückgeben
         temperature=0.0  # kein Zufall beim Routing
+    )
+    llm_planner = ChatGroq(
+    model="llama-3.1-8b-instant",  # Planner braucht kein 70B
+    max_tokens=500,
+    temperature=0.7
+    )
+    llm_dietitian = ChatGroq(
+        model="llama-3.3-70b-versatile",  # Nur Dietitian braucht 70B
+        max_tokens=3000,
+        temperature=0.3
     )
     retriever = load_retriever()
 
@@ -104,30 +115,23 @@ def build_agent():
         offers_section = state.get("offers_section", "")
         
         prompt = ChatPromptTemplate.from_template("""
-            You are ConfabChef (CC), a friendly AI cooking assistant 
-            specializing in international cuisine.
+        You are ConfabChef (CC), a friendly AI cooking assistant 
+        specializing in international cuisine.
 
-            Use the following recipes from your knowledge base:
-            {context}
+        Use the following recipes from your knowledge base:
+        {context}
 
-            {offers_section}
+        {offers_section}
 
-            User preferences (if mentioned): apply dietary restrictions, 
-            calorie goals, and allergies from the conversation.
+        Apply dietary restrictions, calorie goals, and allergies if mentioned.
 
-            When creating meal plans:
-            - Write a table for the overview
-            - Structure by day with Breakfast (25%), Lunch (40%), Dinner (35%)
-            - Include ingredients with exact amounts
-            - Include macros per serving (Calories, Protein, Carbs, Fat, Fiber)
-            - Include step-by-step instructions
-            - Add tips and substitutions
-            - End with a shopping list sorted by category
+        For recipes: include ingredients with amounts and step-by-step instructions.
+        For offers/suggestions: give a brief overview with 2-3 recipe ideas.
 
-            Answer in the same language as the user.
+        Answer in the same language as the user.
 
-            User question: {question}
-            """)
+        User question: {question}
+        """)
         
         messages = prompt.format_messages(
             context=context,
@@ -138,24 +142,34 @@ def build_agent():
         return {"messages": [AIMessage(content=str(response.content))]}
     
     def planner_node(state: AgentState) -> Dict[str, Any]:
-        """Erstellt kreativen Meal Plan ohne Einschränkungen"""
         question = str(state["messages"][-1].content)
         context = state.get("context", "")
         
+        # Zufällige Küchen für mehr Abwechslung
+        cuisines = ["Italian", "Japanese", "Mexican", "Indian", "Thai", 
+                    "Greek", "Korean", "Lebanese", "Peruvian", "Ethiopian"]
+        random.shuffle(cuisines)
+        cuisine_suggestion = ", ".join(cuisines[:4])
+        
         prompt = ChatPromptTemplate.from_template("""
-        You are a creative meal planner. Create a diverse weekly meal plan.
+        Create ONLY dish names for a weekly meal plan.
+        No ingredients, no instructions, no macros. Just names.
         
-        Use these recipes as inspiration:
-        {context}
+        Try to incorporate these cuisines for variety: {cuisines}
+        Use these recipes as inspiration: {context}
         
-        Focus on variety and creativity. Don't worry about restrictions yet.
-        Create a rough plan with dish names and main ingredients only.
+        Format: Day — Breakfast / Lunch / Dinner
+        Maximum 100 words total.
         
         User request: {question}
         """)
         
-        messages = prompt.format_messages(context=context, question=question)
-        response = llm_generate.invoke(messages)
+        messages = prompt.format_messages(
+            context=context,
+            question=question,
+            cuisines=cuisine_suggestion
+        )
+        response = llm_planner.invoke(messages)
         return {"draft_plan": str(response.content), "messages": []}
 
     def dietitian_node(state: AgentState) -> Dict[str, Any]:
@@ -180,6 +194,17 @@ def build_agent():
         4. Keep the variety and creativity of the original plan
         5. Add exact amounts, macros, instructions and shopping list
         
+        Present the final plan as:
+        1. A markdown overview table: | Day | Breakfast | Lunch | Dinner |
+        2. A shopping list sorted by category with supermarket where available
+        
+        Do NOT include:
+        - Individual recipes or cooking instructions
+        - Detailed macros per meal
+        - Notes or disclaimers
+
+        The user can ask for specific recipes or macros separately.
+
         User request with restrictions: {question}
         """)
         
@@ -188,7 +213,7 @@ def build_agent():
             offers_section=offers_section,
             question=question
         )
-        response = llm_generate.invoke(messages)
+        response = llm_dietitian.invoke(messages)
         return {"messages": [AIMessage(content=str(response.content))]}
 
     def after_recipes(state: AgentState) -> str:
