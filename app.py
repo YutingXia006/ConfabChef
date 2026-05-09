@@ -1,5 +1,3 @@
-from pathlib import Path
-from dotenv import load_dotenv
 import streamlit as st
 from langchain_core.messages import HumanMessage
 from groq import RateLimitError
@@ -11,7 +9,6 @@ import logging
 warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
-load_dotenv(Path(__file__).parent / ".env")
 @st.cache_resource
 def get_agent():
     return build_agent()
@@ -80,7 +77,8 @@ if prompt := st.chat_input("Ask me for a recipe or meal plan..."):
                     "messages": [HumanMessage(content=prompt)],
                     "context": "",
                     "offers_section": "",
-                    "route": ""
+                    "route": "",
+                    "draft_plan": ""
                 })
                 if st.session_state.get("offers"):
                     markets = ", ".join(st.session_state.offers.keys())

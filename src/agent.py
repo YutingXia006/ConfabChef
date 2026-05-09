@@ -2,7 +2,7 @@ from langgraph.graph import StateGraph, END, START
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, BaseMessage
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-from typing import TypedDict, Annotated, Literal, List, Any, Dict
+from typing import TypedDict, Annotated, List, Any, Dict
 from src.retriever import load_retriever
 from src.offers import load_or_fetch_offers
 import operator
@@ -15,30 +15,15 @@ class AgentState(TypedDict):
     context: str
     offers_section: str
     route: str
+    draft_plan: str
 
 
 def build_agent():
     # ── Supermärkte ──────────────────────────────────────────────────────────────
-    SUPPORTED_MARKETS = ['Lidl', 
-                         'REWE', 
-                         'Penny',
-                         'Netto Marken-Discount',
-                         'Action', 
-                         'Hornbach', 
-                         'Müller', 
-                         'EDEKA', 
-                         'Penny', 
-                         'Globus-Baumarkt', 
-                         'E center', 
-                         'Marktkauf', 
-                         'Netto Marken-Discount', 
-                         'OBI', 
-                         'Müller', 
-                         'Center Parcs', 
-                         'Netto Marken-Discount', 
-                         'MediaMarkt Saturn', 
-                         'dm-drogerie markt', 
-                         'Dehner Garten-Center']
+    SUPPORTED_MARKETS = [
+        "Lidl", "REWE", "EDEKA", "Penny", 
+        "Netto Marken-Discount", "E center", "Marktkauf"
+    ]
     # ── LLM & Retriever ──────────────────────────────────────────────────────────
     llm_generate = ChatGroq(
         model="llama-3.3-70b-versatile",
@@ -49,11 +34,6 @@ def build_agent():
         model="llama-3.1-8b-instant", 
         max_tokens=10,  # braucht nur ein Wort zurückgeben
         temperature=0.0  # kein Zufall beim Routing
-    )
-    llm_extractor = ChatGroq(
-        model="llama-3.1-8b-instant",
-        max_tokens=100,
-        temperature=0.0
     )
     retriever = load_retriever()
 
@@ -156,6 +136,60 @@ def build_agent():
         )
         response = llm_generate.invoke(messages)
         return {"messages": [AIMessage(content=str(response.content))]}
+    
+    def planner_node(state: AgentState) -> Dict[str, Any]:
+        """Erstellt kreativen Meal Plan ohne Einschränkungen"""
+        question = str(state["messages"][-1].content)
+        context = state.get("context", "")
+        
+        prompt = ChatPromptTemplate.from_template("""
+        You are a creative meal planner. Create a diverse weekly meal plan.
+        
+        Use these recipes as inspiration:
+        {context}
+        
+        Focus on variety and creativity. Don't worry about restrictions yet.
+        Create a rough plan with dish names and main ingredients only.
+        
+        User request: {question}
+        """)
+        
+        messages = prompt.format_messages(context=context, question=question)
+        response = llm_generate.invoke(messages)
+        return {"draft_plan": str(response.content), "messages": []}
+
+    def dietitian_node(state: AgentState) -> Dict[str, Any]:
+        """Überarbeitet Plan mit Einschränkungen und Angeboten"""
+        question = str(state["messages"][-1].content)
+        draft = state.get("draft_plan", "")
+        offers_section = state.get("offers_section", "")
+        
+        prompt = ChatPromptTemplate.from_template("""
+        You are a dietitian reviewing a meal plan draft.
+        
+        Original draft:
+        {draft}
+        
+        {offers_section}
+        
+        Your job:
+        1. Apply ALL dietary restrictions from the user request
+        2. Substitute forbidden ingredients with alternatives
+        (e.g. pork → beef/chicken, dairy → plant-based)
+        3. Prefer ingredients from supermarket deals where possible
+        4. Keep the variety and creativity of the original plan
+        5. Add exact amounts, macros, instructions and shopping list
+        
+        User request with restrictions: {question}
+        """)
+        
+        messages = prompt.format_messages(
+            draft=draft,
+            offers_section=offers_section,
+            question=question
+        )
+        response = llm_generate.invoke(messages)
+        return {"messages": [AIMessage(content=str(response.content))]}
 
     def after_recipes(state: AgentState) -> str:
         """Nach recipe search — wohin?"""
@@ -183,6 +217,8 @@ def build_agent():
     workflow.add_node("generate", generate_node)
     workflow.add_node("meal_plan_offers", get_offers_node)
     workflow.add_node("extract_market", extract_market_node)
+    workflow.add_node("planner", planner_node)
+    workflow.add_node("dietitian", dietitian_node)
 
     workflow.add_edge(START, "router")
 
@@ -204,9 +240,13 @@ def build_agent():
         "meal_plan_offers": "meal_plan_offers",
         "generate": "generate"
     })
+    # meal_plan Flow:
+    # search_recipes → meal_plan_offers → planner → dietitian
+    workflow.add_edge("meal_plan_offers", "planner")
+    workflow.add_edge("planner", "dietitian")
+    workflow.add_edge("dietitian", END)
 
     workflow.add_edge("get_offers", "generate")
-    workflow.add_edge("meal_plan_offers", "generate")
     workflow.add_edge("generate", END)
 
     return workflow.compile()
@@ -231,7 +271,8 @@ if __name__ == "__main__":
             "messages": [HumanMessage(content=question)],
             "context": "",
             "offers_section": "",
-            "route": ""
+            "route": "",
+            "draft_plan": ""
         })
         print(f"Route: {result['route']}")
         print(f"Markets: {st.session_state.get('selected_markets', 'default')}")

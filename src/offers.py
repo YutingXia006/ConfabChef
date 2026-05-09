@@ -1,13 +1,10 @@
 from pathlib import Path
 from datetime import datetime
-from src.scraper import fetch_all_offers
+from src.scraper import fetch_all_offers, RELEVANT_SUPERMARKTS
 from langchain_core.messages import HumanMessage
 from langchain_groq import ChatGroq
 import json
 import re
-from dotenv import load_dotenv
-import os
-load_dotenv()
 
 llm_filter = ChatGroq(
     model="meta-llama/llama-4-scout-17b-16e-instruct",
@@ -30,7 +27,7 @@ def parse_json_response(response: str) -> dict:
 
 def load_or_fetch_offers(markets: list[str] | None = None):
     # Nutze Parameter oder fallback auf ENV
-    active_markets = markets or os.environ.get("MARKETS", "").split(",")
+    active_markets = markets or RELEVANT_SUPERMARKTS
 
     kw = datetime.now().isocalendar().week
     markets_key = "_".join(sorted(active_markets))

@@ -1,30 +1,18 @@
 import re
 import requests
-import os
-from dotenv import load_dotenv
-from pathlib import Path
 
+RELEVANT_SUPERMARKTS = ["Lidl", "EDEKA", "REWE"]
 
-load_dotenv(Path(__file__).parent.parent / ".env")
-
-try:
-    RELEVANT_SUPERMARKTS = os.environ["MARKETS"].split(",")
-except (TypeError, ValueError):
-    raise ValueError("MARKETS must be set in your .env file")
-
-try:
-    LAT = float(os.environ["LAT"])
-    LNG = float(os.environ["LNG"])
-except (TypeError, ValueError):
-    raise ValueError("LATITUDE and LONGITUDE must be set in your .env file")
-
-def fetch_brochure_ids(markets: list[str] | None = None):
-    active_markets = markets or RELEVANT_SUPERMARKTS
+def fetch_shelf_data() -> str:
+    """Einmal kaufda.de fetchen für IDs und Koordinaten"""
     html = requests.get(
         "https://www.kaufda.de/shelf",
-        params={"lat": LAT, "lng": LNG},
         timeout=10
     ).text
+    return html
+
+def fetch_brochure_ids(html: str, markets: list[str] | None = None) -> dict:
+    active_markets = markets or RELEVANT_SUPERMARKTS
 
     # Händlername + ID zusammen extrahieren
     matches = re.findall(
@@ -38,6 +26,18 @@ def fetch_brochure_ids(markets: list[str] | None = None):
         if name in active_markets and name not in brochure_ids:
             brochure_ids[name] = id
     return brochure_ids
+
+def fetch_location(html: str) -> tuple[float, float]:
+    lat_match = re.search(r'lat["\s:=]+([\d.]+)', html)
+    
+    lat_match = re.search(r'lat["\s:=]+([\d.]+)', html)
+    lng_match = re.search(r'lng["\s:=]+([\d.]+)', html)
+    
+    if lat_match and lng_match:
+        return float(lat_match.group(1)), float(lng_match.group(1))
+    
+    # Fallback falls Regex nicht matched
+    return 48.7758, 9.1829
 
 def fetch_brochure_pages(brochure_id: str, lat: float, lng: float) -> dict:
     url = f"https://content-viewer-be.kaufda.de/v1/brochures/{brochure_id}/pages"
@@ -99,14 +99,12 @@ def parse_food_offers(data: dict) -> list[dict]:
     return angebote
 
 def fetch_all_offers(markets: list[str] | None = None):
-    active_markets = markets or RELEVANT_SUPERMARKTS
-    brochure_ids = fetch_brochure_ids(active_markets)
+    html = fetch_shelf_data()
+    lat, lng = fetch_location(html)
+    brochure_ids = fetch_brochure_ids(html, markets)
     all_offers = {}
     for name, brochure_id in brochure_ids.items():
-        raw_data = fetch_brochure_pages(brochure_id, LAT, LNG)
+        raw_data = fetch_brochure_pages(brochure_id, lat, lng)
         angebote = parse_food_offers(raw_data)
         all_offers[name] = angebote
     return all_offers
-
-if __name__ == "__main__":
-    print(fetch_all_offers())

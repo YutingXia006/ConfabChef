@@ -16,11 +16,12 @@ The app uses a LangGraph agent that decides how to handle each request:
 
 ![LangGraph Agent](docs/graph.png)
 
-1. **Route** — A fast LLM classifies the request into recipes, meal_plan, offers, or general
-2. **Extract** — If deals are needed, the agent extracts supermarket preferences from the message
+1. **Route** — A fast LLM (LLaMA 3.1 8B) classifies the request into recipes, meal_plan, offers, or general
+2. **Extract** — The agent extracts supermarket preferences directly from the message
 3. **Retrieve** — Relevant recipes are fetched from a FAISS vector index
-4. **Deals** — Current supermarket offers are fetched via kaufda.de and cached weekly
-5. **Generate** — A powerful LLM generates a personalised response combining all context
+4. **Deals** — Current supermarket offers are fetched via kaufda.de (IP-based geolocation, cached weekly)
+5. **Plan** — A creative planner generates a diverse meal plan without restrictions
+6. **Refine** — A dietitian node applies dietary restrictions and substitutes forbidden ingredients
 
 ## Tech Stack
 
@@ -92,10 +93,7 @@ pip install -r requirements.txt
 #### 3. Set up `.env`
 
 GROQ_API_KEY=your_key_here\
-Optional — needed for supermarket deals feature\
-MARKETS=Lidl,EDEKA\
-LAT=your_latitude\
-LNG=your_longitude
+That's it! No location or market configuration needed. kaufda.de detects your location automatically via IP geolocation.
 
 #### 4. Run the app
 
@@ -115,10 +113,10 @@ python src/ingest.py
 A LangGraph agent classifies each request and decides which tools to use — no manual buttons needed. Just chat naturally.
 
 **🍳 Recipe & Meal Planning**
-Ask for recipes, weekly meal plans, or ingredient-based suggestions. Specify dietary restrictions, calorie goals, allergies, or cuisine preferences directly in the chat.
+Ask for recipes or weekly meal plans with complex dietary requirements. A two-stage AI pipeline first creates a creative plan, then a dietitian refines it — substituting forbidden ingredients automatically (e.g. pork → beef, dairy → plant-based).
 
 **🛒 Automatic Supermarket Deals**
-Mention your preferred supermarket and CC will automatically fetch this week's deals and use them for recipe suggestions. Supported: Lidl, Rewe, EDEKA, Aldi, Kaufland, Penny, Netto. Deals are cached weekly as JSON so the scraper only runs once per week.
+Mention your preferred supermarket and CC automatically fetches this week's local deals via kaufda.de. Location is detected automatically via IP geolocation. Supported: Lidl, REWE, EDEKA, Penny, Netto Marken-Discount. Deals are cached weekly.
 
 > *"I usually shop at Lidl, give me a weekly meal plan"*
 
