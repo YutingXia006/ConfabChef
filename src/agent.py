@@ -188,10 +188,9 @@ def build_agent():
         
         Your job:
         1. Apply ALL dietary restrictions from the user request
-        2. Substitute forbidden ingredients with alternatives
-        (e.g. pork → beef/chicken, dairy → plant-based)
+        2. Substitute forbidden ingredients with the MOST DIFFERENT valid alternative, not just the closest one (e.g. pork → lentils, not pork → beef)
         3. Prefer ingredients from supermarket deals where possible
-        4. Keep the variety and creativity of the original plan
+        4. NEVER repeat the same protein source on the same day (e.g. if breakfast has eggs, lunch and dinner cannot)
         5. Add exact amounts, macros, instructions and shopping list
         
         Present the final plan as:
