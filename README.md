@@ -4,6 +4,8 @@
 
 ConfabChef is an agentic RAG-based recipe and meal planning chatbot built with LangGraph, LangChain, Groq, and Streamlit. A LangGraph agent intelligently routes your request, retrieves relevant recipes from a local knowledge base, and automatically fetches current supermarket deals — all from a single chat message.
 
+> **Note:** This project is no longer actively maintained. It relies on external APIs (Groq, kaufda.de) that can change over time, so the live demo may occasionally break or behave unexpectedly. The screenshots below show a working example.
+
 ## 🚀 Live Demo
 
 [Try ConfabChef here](https://confabchef.streamlit.app/)
